@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title> player</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        
+        div.ia21-player{
+            border: 1px solid black;
+        }
+        
+        div.ia21-player div.contraillers{
+            display: flex; /*é quem decide o tamanho das propriedades filhas*/
+            border-top: 1px solid black;
+        }
+        
+        div.ia21-player div.contraillers button.player-pause {
+            background-color: transparent;
+            border: 0 none;
+            border-right: 2px solid black;
+            cursor: pointer;
+        }
+        
+        div.ia21-player div.controllers div.dragbar {
+        flex-grow: 1;
+        position: absolute;
+        
+        }
+
+        div.ia21-player div.controllers div.dragbar::before {
+           content:" ";
+           position:absolute;
+           border-top:1px solid black;
+           width: 100%;
+           top: calc(50% - ,5px);
+
+
+
+        
+        }
+
+
+
+
+
+
+
+
+        div.ia21-player.div.controllers div.dragbar div.draggable{
+            background-color:black;
+            width: .5em;   
+            height:.5em;
+            border-radius:50%;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="ia21 player">
+        <video src=""></video>
+        <div class="crontollers">
+            <button class="play-pause">
+                ▶
+            </button>
+             <div class="drag-bar" timeline">
+            <div class="draggable"></div>
+            </div>
+            <div class="timer">
+                00:00
+            </div>
+            <div class="dragg-bar  volume">
+                <div class="draggable"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
