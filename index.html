@@ -60,7 +60,8 @@
             border-radius: 50%;
             cursor: pointer;
             position: absolute;
-            top: calc(50% - .25em);
+            top: calc(50% - .25rem);
+            left: calc(var(--porcent)- .25rem)
         }
     </style>
 </head>
@@ -68,8 +69,8 @@
 
     <div class="ia21-player">
         <video>
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            <source src="https://www.w3schools.com/html/mov_bbb.ogg" type="video/ogg">
+            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+            <source src="https://www.w3schools.com/html/movie.ogg" type="video/ogg">
 
         </video>
         <div class="contraillers">
@@ -95,10 +96,18 @@
             
             const playPause = el.quarySelector("button.play-pause")
             const video = el.quarySelector("video")
+            const timebar = el.querySelector(".dragbar.timeline")
+            const timelineDrag = timeline.querySelector(".draggable")
+            PlayPause.addEventListener("click", () => video.play())
             playPause.onclick = () => video.play()
-            /*playPause.addEventListener("click", () => alert("zzzz"))*/
-        })
             
+            /*playPause.addEventListener("click", () => alert("zzzz"))*/
+
+            video.addEventListener("timeupdate", () => {
+                const percent = (video.currenTime / video.duration) * 100
+                timelineDrag.style.setProperty("--porcent", `${porcent}%`)
+            })
+        })
         
     </script>
 </body>
