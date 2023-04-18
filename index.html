@@ -9,7 +9,7 @@
         }
         
         body { 
-            background-color: rgb(189, 156, 230);
+            background-color: rgb(198, 113, 238);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -134,13 +134,25 @@
             dragbars.forEach(dragbar => {
                 const dragabble = dragbar.querySelector(".draggable")
                 dragbar.addEventListener("click", ev => {
-                    const width = Math.floor(dragbar.getBoundingClientRect().width)
-                    const percent = (ev.offsetX / width) * 100
-                    dragabble.style.setProperty("--percent", `${percent}%`)
-                })
+                const width = Math.floor(dragbar.getBoundingClientRect().width)
+                const index = ev.offsetX / width
+                const percent = index * 100
+                dragabble.style.setProperty("--percent", `${percent}%`)
+
+                if (dragbar.classList.contains("timeline")) {
+                    video.currentTime = video.duration * index
+                    return
+                }
+
+                if (dragbar.classList.contains("volume")) {
+                    video.volume = index
+                    return
+                }
+
             })
         })
-    </script>
+    })
+</script>
 </body>
 
 </html>
