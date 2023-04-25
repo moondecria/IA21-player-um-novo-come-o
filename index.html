@@ -61,7 +61,8 @@
             cursor: pointer;
             position: absolute;
             top: calc(50% - .25rem);
-            left: calc(var(--percent) - .25rem)
+            left: calc(var(--percent) - .25rem);
+            pointer-events: none;
         }
     </style>
 </head>
@@ -127,17 +128,43 @@
                 }
             })
 
+            
+
            // ---✀------------------------------------------------------
             
            const dragbars = container.querySelectorAll(".dragbar")
             
             dragbars.forEach(dragbar => {
                 const dragabble = dragbar.querySelector(".draggable")
-                dragbar.addEventListener("click", ev => {
+                
+            if (dragbar.classList.contains("volume")) {
+                dragabble.style.setProperty("--percent", `100%`)
+            
+            }
+
+            dragbar.addEventListener("mousedown", ev => {
+                dragbar.classList.add("dragging")
+            })
+            
+            dragbar.addEventListener("mouseup", ev => {
+                dragbar.classList.remove("dragging")
+            })
+
+            dragbar.addEventListener("mouseoup", ev => {
+                dragbar.classList.remove("dragging")
+            })
+                
+        
+        
+            dragbar.addEventListener("mouseup", ev => {
+                if (ev.target != dragbar ) 
+                    return
                 const width = Math.floor(dragbar.getBoundingClientRect().width)
                 const index = ev.offsetX / width
                 const percent = index * 100
                 dragabble.style.setProperty("--percent", `${percent}%`)
+
+                
 
                 if (dragbar.classList.contains("timeline")) {
                     video.currentTime = video.duration * index
