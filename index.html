@@ -70,8 +70,8 @@
     
     <div class="ia21-player">
         <video>
-            <!-- https://gist.github.com/jsturgis/3b19447b304616f18657 -->
-            <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                <!-- https://gist.github.com/jsturgis/3b19447b304616f18657 -->
+                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
         </video>
         <div class="controllers">
             <button class="play-pause" data-pause-icon="||" data-play-icon="▶">
@@ -107,7 +107,7 @@
                 if (video.paused) {
                     video.play()
                     btPlayPause.innerText = btPlayPause.dataset.pauseIcon
-                    return
+                return
                 }
                 
                 video.pause()
@@ -117,7 +117,7 @@
             video.currentime = 58
             
             video.addEventListener("timeupdate", () => {
-                const percent = (video.currentTime / video.duration) * 100
+                 const percent = (video.currentTime / video.duration) * 100
                 timelineDrag.style.setProperty("--percent", `${percent}%`) 
                 timer.innerText = Math.floor(video.currentTime)
 
@@ -127,6 +127,17 @@
                     timer.innerText = min + ":" + seg
                 }
             })
+
+            const s = Math.floor(video.currentTime)
+            const m = Math.floor(s / 60)
+            const h = Math.floor(m / 60)
+                
+            const sh = `${h % 60}`.padStart(2, "0")
+            const sm = `${m % 60}`.padStart(2, "0")
+            const ss = `${s % 60}`.padStart(2, "0")
+                
+            timelineDrag.style.setProperty("--percent", `${percent}%`)
+            timer.innerText = `${sh}:${sm}:${ss}`
 
             
 
