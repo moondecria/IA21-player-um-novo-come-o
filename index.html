@@ -32,7 +32,7 @@
             column-gap: 10px;
         }
         
-        div.ia21-player div.controllers button.play-pause {
+        div.ia21-player div.controllers button.play-pause, button.abrir-playlist {
             background-color: transparent;
             border: 0 none;
             border-right: 2px solid black;
@@ -64,29 +64,40 @@
             left: calc(var(--percent) - .25rem);
             pointer-events: none;
         }
-    
+        
+        .escondido {
+             display:none;
+        }
+        
     </style>
 </head>
 <body>
     
-    <div class="ia21-player">
+    <div class="ia21-player" data-playlist="list1.json"> 
         <video>
                 <!-- https://gist.github.com/jsturgis/3b19447b304616f18657 -->
                 <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
         </video>
         <div class="controllers">
-            <button class="play-pause" data-pause-icon="||" data-play-icon="▶">
-                ▶ 
-            </button>
-            <div class="dragbar timeline">
-                <div class="draggable"></div>
+        <button class="play-pause" data-pause-icon="||" data-play-icon="▶">
+            ▶ 
+        </button>
+        <button class="abrir-playlist">
+        ☰
+        </button>
+
+        <div class="dragbar timeline">
+        <div class="draggable"></div>
         </div>
         <div class="timer">
-        00:00:00
-        </div>
-            <div class="dragbar volume">
-             <div class="draggable"></div>
+            00:00:00
             </div>
+        <div class="dragbar volume">
+        <div class="draggable"></div>
+        </div>
+        </div>
+        <div class="playlist escondido">
+
         </div>
     </div>
     
@@ -96,13 +107,29 @@
     <script>
         const containers = document.querySelectorAll("div.ia21-player")
        
-        containers.forEach(container => { 
+        containers.forEach(async container => { 
             const btPlayPause = container.querySelector("button.play-pause")
             const video = container.querySelector("video")
             const timeline = container.querySelector(".dragbar.timeline")
             const timelineDrag = timeline.querySelector(".draggable")
             const timer = container.querySelector(".timer")
+            const playlist = container.querySelector(".playlist")
             /*btPlayPause.addEventListener("click", () => video.play())*/
+            const ativar = container.querySelector(".abrir-playlist")
+
+            const requisicao = await fetch(container.dataset.playlist)
+            const lista = await requisicao.json()
+
+            lista.forEach(movie => {
+                playlist.innerHTML += `
+                <div>${movie.title}</div>
+                `
+            })
+
+            ativar.addEventListener("click", () => { 
+                playlist.classList.toggle("escondido")
+            })
+            
 
             btPlayPause.addEventListener("click" , () => {
                 if (video.paused) {
