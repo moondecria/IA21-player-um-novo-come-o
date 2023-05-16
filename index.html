@@ -19,7 +19,7 @@
             display: flex;
             flex-direction: column;
             border: 2px solid black;
-            width: 720px;
+            width: 1200px;
         }
         
         div.ia21-player video {
@@ -35,7 +35,7 @@
         div.ia21-player div.controllers button.play-pause {
             background-color: transparent;
             border: 0 none;
-            border-right: 1px solid black;
+            border-right: 2px solid black;
             cursor: pointer;
         }
         
@@ -64,6 +64,7 @@
             left: calc(var(--percent) - .25rem);
             pointer-events: none;
         }
+    
     </style>
 </head>
 <body>
@@ -79,12 +80,12 @@
             </button>
             <div class="dragbar timeline">
                 <div class="draggable"></div>
-            </div>
-            <div class="timer">
-                00:00
-            </div>
+        </div>
+        <div class="timer">
+        00:00:00
+        </div>
             <div class="dragbar volume">
-                <div class="draggable"></div>
+             <div class="draggable"></div>
             </div>
         </div>
     </div>
@@ -110,14 +111,14 @@
                 return
                 }
                 
-                video.pause()
-                btPlayPause.innerText = btPlayPause.dataset.playIcon
+            video.pause()
+            btPlayPause.innerText = btPlayPause.dataset.playIcon
             })
 
             video.currentime = 58
             
             video.addEventListener("timeupdate", () => {
-                 const percent = (video.currentTime / video.duration) * 100
+                const percent = (video.currentTime / video.duration) * 100
                 timelineDrag.style.setProperty("--percent", `${percent}%`) 
                 timer.innerText = Math.floor(video.currentTime)
 
@@ -126,20 +127,18 @@
                     seg = Math.floor(timer.innerText%60)
                     timer.innerText = min + ":" + seg
                 }
+
+                const s = Math.floor(video.currentTime)
+                const m = Math.floor(s / 60)
+                const h = Math.floor(m / 60)
+                    
+                const sh = `${h % 60}`.padStart(2, "0")
+                const sm = `${m % 60}`.padStart(2, "0")
+                const ss = `${s % 60}`.padStart(2, "0")
+                    
+                timelineDrag.style.setProperty("--percent", `${percent}%`)
+                timer.innerText = `${sh}:${sm}:${ss}`
             })
-
-            const s = Math.floor(video.currentTime)
-            const m = Math.floor(s / 60)
-            const h = Math.floor(m / 60)
-                
-            const sh = `${h % 60}`.padStart(2, "0")
-            const sm = `${m % 60}`.padStart(2, "0")
-            const ss = `${s % 60}`.padStart(2, "0")
-                
-            timelineDrag.style.setProperty("--percent", `${percent}%`)
-            timer.innerText = `${sh}:${sm}:${ss}`
-
-            
 
            // ---✀------------------------------------------------------
             
@@ -190,6 +189,7 @@
             })
         })
     })
+
 </script>
 </body>
 
