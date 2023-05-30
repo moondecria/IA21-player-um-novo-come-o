@@ -3,16 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>testes</title>
+    <style>
+        button {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    lulululululis
+   
     <script>
         async function main() {
-          const request = await fetch("meus-dados.txt")
-          const data = await request.text()
-          document.body.innerHTML = `<pre>${data}</pre>`
-        }
-        main()
+            const year = new Date().getFullYear()
+            const request = await fetch("meus-dados.json")
+            const data = await request.json()
+            data.forEach(pessoa => {
+            document.body.innerHTML += `<button>
+                ${pessoa.nome},
+                ${year - pessoa["data-nascimento"][0]},
+                ${pessoa.apelido},
+                ${pessoa.oculos ? "oculos" : ""}
+                
+            </button>`
+            })
+    }
+     main()
     </script>
 </body>
 </html>
