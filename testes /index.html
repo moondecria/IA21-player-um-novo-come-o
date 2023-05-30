@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>testes</title>
+</head>
+<body>
+    lulululululis
+    <script>
+        async function main() {
+          const request = await fetch("meus-dados.txt")
+          const data = await request.text()
+          document.body.innerHTML = `<pre>${data}</pre>`
+        }
+        main()
+    </script>
+</body>
+</html>
