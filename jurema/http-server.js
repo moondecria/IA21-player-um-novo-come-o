@@ -9,11 +9,11 @@ app.use("/create", (req, res) => {
   fs.writeFileSync(file, texto)
   res.send("Criado!!")
 })
-
+  
 app.use("/read", (req, res) => { 
   const { file } = req.query
   const texto = fs.readFileSync(file)
-  res.send(texto.toString()) /
+  res.send(texto.toString()) 
 })
 
 app.use("/update", (req, res) => { 
@@ -28,4 +28,4 @@ app.use("/delete", (req, res) => {
   res.send("Deletado!!")
 })
 
-app.listen(8080, () => console.log("Servidor funcionando!"))
+app.listen(8080, () => console.log("Servidor funcionando!")) 
