@@ -39,6 +39,21 @@ app.put("/movies", async (req, res) => {
 
 // ??????? PATCH
 
+app.patch("/movies", async (req, res) => {
+  const { id } = req.query
+  const db = await getDatabaseInstance()
+  const info = Object.keys(req.body).map(key => `${key}=?` ).join(', ')
+  const values = [...Object.values(req.body), id] 
+  const atualizar = `UPDATE movies SET ${info} WHERE id=?` 
+  try {
+    const resut = await db.run(atualizar, values)
+    res.json(resut)
+  } catch (error) {
+    res.status(500).json({error: "Erro 500"})
+  }
+  
+})
+
 app.delete("/movies", async (req, res) => {
   const { id } = req.query
   const db = await getDatabaseInstance()
