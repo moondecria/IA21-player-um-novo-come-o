@@ -54,6 +54,7 @@
 
 <script>
      const domMovieList = document.querySelector("ul.movie-list")
+     const domFormAlterar = document.querySelector("form.form-alterar")
     
     async function listarTodosOsFilmes() {
       const response = await fetch("/movies")
@@ -83,6 +84,32 @@
     }
 
     listarTodosOsFilmes()
+
+
+    domFormAlterar.addEventListener("submit", async ev => {
+      ev.preventDefault()
+      ev.stopPropagation()
+      ev.stopImmediatePropagation()
+
+      const body = JSON.stringify({
+        title: domFormAlterar.title.value,
+        source: domFormAlterar.source.value,
+        description: domFormAlterar.description.value,
+        thumb: domFormAlterar.thumb.value,
+      })
+
+      const response = await fetch("/movies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body
+      })
+      
+      const result = await response.json()
+      domFormAlterar.reset()
+
+      listarTodosOsFilmes()
+    })
+
   </script>
 </body>
 
