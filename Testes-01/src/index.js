@@ -7,14 +7,38 @@ const app = express()
 app.use(express.static(__dirname + '/../public'))
 app.use(express.json())
 
-app.post("/movies", async (req, res) => {
+// VERIFICAR LOGIN
+function login(req, res, next) {
+  const { token } = req.query
+  if (loginTokens.includes(token)) {
+    next()
+    return
+  }
+  res.status(400).json({ error: true, msg: "token de acesso inválido!" })
+}
+
+// LOGIN
+app.get("/login", (req, res) => {
+  const { login, senha } = req.query
+  if (login == "daniel" && senha == "123123") {
+    const hash = crypto.randomBytes(20).toString('hex')
+    loginTokens.push(hash)
+    console.log(hash)
+    res.json({ error: false, token: hash })
+    return
+  }
+  res.status(400).json({ error: true, msg: "usuário e senha inválidos" })
+})
+
+
+app.post("/movies", login, async (req, res) => {
   const { title, source, description, thumb } = req.body
   const db = await getDatabaseInstance()
   const result = await db.run(`INSERT INTO movies(title, source, description, thumb) VALUES(?, ?, ?, ?)`, [title, source, description, thumb])
   res.json(result)
 })
-
-app.get("/movies", async (req, res) => {
+//read
+app.get("/movies", login ,async (req, res) => {
   const { id } = req.query
   const db = await getDatabaseInstance()
   if (id) {
@@ -25,8 +49,8 @@ app.get("/movies", async (req, res) => {
   const result = await db.all(`SELECT * FROM movies`)
   res.json(result)
 })
-
-app.put("/movies", async (req, res) => {
+ //update
+app.put("/movies", login , async (req, res) => {
   const { id } = req.query
   const { title, source, description, thumb } = req.body
   const db = await getDatabaseInstance()
@@ -37,9 +61,9 @@ app.put("/movies", async (req, res) => {
   res.json(result)
 })
 
-// ??????? PATCH
 
-app.patch("/movies", async (req, res) => {
+//update
+app.patch("/movies", login, async (req, res) => {
   const { id } = req.query
   const db = await getDatabaseInstance()
   const info = Object.keys(req.body).map(key => `${key}=?` ).join(', ')
@@ -53,8 +77,8 @@ app.patch("/movies", async (req, res) => {
   }
   
 })
-
-app.delete("/movies", async (req, res) => {
+  //delete
+app.delete("/movies", login, async (req, res) => {
   const { id } = req.query
   const db = await getDatabaseInstance()
   const result = await db.run(`DELETE FROM movies WHERE id=?`, id)
